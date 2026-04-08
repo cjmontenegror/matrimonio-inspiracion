@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inspiración Matrimonio - Viña Santa Rita</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --oliva: #5C6B4F;
+      --oliva-oscuro: #3E4A35;
+      --oliva-claro: #7A8B6A;
+      --blanco: #FFFFFF;
+      --gris-suave: #F5F5F3;
+      --gris-texto: #8A8A82;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--blanco);
+      color: var(--oliva-oscuro);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .nav-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--oliva-oscuro);
+      letter-spacing: 1px;
+      padding: 0.8rem 2rem 0;
+      text-align: center;
+    }
+    .nav-sep { color: rgba(62,74,53,0.25); margin: 0 0.3rem; }
+    nav ul {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      list-style: none;
+      padding: 0.5rem 0 0.8rem;
+    }
+    nav a {
+      color: var(--oliva-claro);
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 400;
+      transition: color 0.3s;
+    }
+    nav a:hover { color: var(--oliva-oscuro); }
+
+    /* SECTIONS */
+    section {
+      padding: 2.5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      scroll-margin-top: 5rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: var(--oliva-oscuro);
+    }
+
+    /* ALTERNATING BACKGROUNDS */
+    .bg-alt {
+      background: var(--gris-suave);
+      max-width: 100%;
+      padding-left: calc((100% - 1200px) / 2 + 2rem);
+      padding-right: calc((100% - 1200px) / 2 + 2rem);
+    }
+
+    #inspiracion { padding-top: 6.5rem; }
+
+    /* PALETA */
+    #paleta { text-align: center; }
+    .palette-container {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .color-swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .swatch {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 2px solid rgba(92,107,79,0.15);
+      transition: transform 0.3s;
+    }
+    .swatch:hover { transform: scale(1.1); }
+    .color-swatch span {
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gris-texto);
+    }
+    .color-swatch .color-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      text-transform: none;
+      color: var(--oliva-oscuro);
+    }
+
+    /* TAGS */
+    .section-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      padding: 1rem 0 0;
+    }
+    .section-tags span {
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      padding: 0.45rem 1.1rem;
+      border: 1px solid rgba(92,107,79,0.25);
+      border-radius: 20px;
+      color: var(--oliva);
+      background: var(--blanco);
+    }
+    .bg-alt .section-tags span {
+      background: var(--gris-suave);
+    }
+
+    /* PHOTO POOL & CAROUSEL */
+    .photo-pool {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding: 0.5rem 0 1rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: var(--oliva-claro) transparent;
+    }
+    .photo-pool::-webkit-scrollbar { height: 4px; }
+    .photo-pool::-webkit-scrollbar-track { background: transparent; }
+    .photo-pool::-webkit-scrollbar-thumb { background: var(--oliva-claro); border-radius: 2px; }
+    .photo-pool .pool-item {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .photo-pool .pool-item:hover { transform: scale(1.02); }
+    .photo-pool .pool-item img {
+      height: 380px;
+      width: auto;
+      display: block;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .carousel-wrapper { position: relative; }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.9);
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      color: var(--oliva-oscuro);
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: background 0.2s;
+    }
+    .carousel-btn:hover { background: #fff; }
+    .carousel-btn.prev { left: -12px; }
+    .carousel-btn.next { right: -12px; }
+
+    /* CROP INSTAGRAM/STORY FRAMES */
+    .photo-pool .pool-item.crop-story {
+      overflow: hidden;
+      width: 400px;
+      height: 380px;
+    }
+    .photo-pool .pool-item.crop-story img {
+      width: 100%;
+      height: 180%;
+      object-fit: cover;
+      object-position: center 40%;
+      margin-top: -30%;
+      border-radius: 8px;
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(30,30,28,0.94);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img {
+      max-width: 80vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+    .lb-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.12);
+      border: none;
+      color: #fff;
+      font-size: 2.5rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.2s;
+      z-index: 1001;
+    }
+    .lb-btn:hover { background: rgba(255,255,255,0.25); }
+    .lb-prev { left: 1.5rem; }
+    .lb-next { right: 1.5rem; }
+    .lb-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: rgba(255,255,255,0.12);
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1001;
+      transition: background 0.2s;
+    }
+    .lb-close:hover { background: rgba(255,255,255,0.25); }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2.5rem 2rem 2rem;
+      background: #fff;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    footer p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--oliva-claro);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; padding: 0.5rem 0.5rem 0.8rem; }
+      nav a { font-size: 0.65rem; letter-spacing: 2px; }
+      .palette-container { gap: 1.2rem; }
+      .swatch { width: 70px; height: 70px; }
+      section { padding: 2rem 1rem; }
+      .photo-pool .pool-item img { height: 280px; }
+      .photo-pool .pool-item.crop-story { width: 300px; height: 280px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-brand">Gil Montenegro <span class="nav-sep">&middot;</span> Viña Santa Rita <span class="nav-sep">&middot;</span> 23.05.26</div>
+    <ul>
+      <li><a href="#inspiracion">Inspiración</a></li>
+      <li><a href="#paleta">Paleta</a></li>
+      <li><a href="#flores">Flores</a></li>
+      <li><a href="#mesas">Mesa Principal</a></li>
+      <li><a href="#mesas-invitados">Invitados</a></li>
+      <li><a href="#mesa-postres">Postres</a></li>
+      <li><a href="#elementos">Elementos</a></li>
+      <li><a href="#pista">Pista de Baile</a></li>
+    </ul>
+  </nav>
+
+  <!-- INSPIRACION -->
+  <section id="inspiracion">
+    <h2 class="section-title">Inspiración</h2>
+    <div class="carousel-wrapper">
+      <button class="carousel-btn prev" onclick="scrollPool(this, -1)">&lsaquo;</button>
+      <div class="photo-pool">
+        <div class="pool-item" onclick="openLightbox(this)">
+          <img src="inspiración/e.jpeg" alt="Candelabros y mesa larga">
+        </div>
+        <div class="pool-item" onclick="openLightbox(this)">
+          <img src="inspiración/WhatsApp Image 2026-02-17 at 17.14.54.jpeg" alt="Muro de velas">
+        </div>
+        <div class="pool-item" onclick="openLightbox(this)">
+          <img src="inspiración/IMG_9064.jpg" alt="Candelabros y mesa larga">
+        </div>
+      </div>
+      <button class="carousel-btn next" onclick="scrollPool(this, 1)">&rsaquo;</button>
+    </div>
+    <div class="section-tags">
+      <span>Velas</span>
+      <span>Blanco - Verde - Luz</span>
+      <span>Terciopelo</span>
+      <span>Lamparas de gota</span>
+      <span>Vidrio</span>
+      <span>Alfombras</span>
+      <span>Cortinas</span>
+      <span>Lounges</span>
+    </div>
+  </section>
+
+  <!-- PALETA -->
+  <section id="paleta" class="bg-alt">
+    <h2 class="section-title">Paleta de Colores</h2>
+    <div class="palette-container">
+      <div class="color-swatch">
+        <div class="swatch" style="background: #FFFFFF; border-color: rgba(0,0,0,0.1);"></div>
+        <span class="color-name">Blanco Floral</span>
+        <span>#FFFFFF</span>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background: #F5F0E8;"></div>
+        <span class="color-name">Crema</span>
+        <span>#F5F0E8</span>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background: linear-gradient(135deg, #E8C87A, #D4A54A);"></div>
+        <span class="color-name">Luz de Vela</span>
+        <span>#E8C87A</span>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background: #918A3A;"></div>
+        <span class="color-name">Verde Terciopelo Lampara</span>
+        <span>#918A3A</span>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background: #2D4A3E;"></div>
+        <span class="color-name">Verde Follaje</span>
+        <span>#2D4A3E</span>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background: #1A2F26;"></div>
+        <span class="color-name">Verde Hoja Oscura</span>
+        <span>#1A2F26</span>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background: #0D0D0D; border-color: rgba(201,169,110,0.4);"></div>
+        <span class="color-name">Negro Noche</span>
+        <span>#0D0D0D</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLORES -->
+  <section id="flores">
+    <h2 class="section-title">Flores</h2>
+    <div class="carousel-wrapper">
+      <button class="carousel-btn prev" onclick="scrollPool(this, -1)">&lsaquo;</button>
+      <div class="photo-pool">
+        <!-- Fotos de flores van aqui -->
+      </div>
+      <button class="carousel-btn next" onclick="scrollPool(this, 1)">&rsaquo;</button>
+    </div>
+  </section>
+
+  <!-- MESA PRINCIPAL -->
+  <section id="mesas" class="bg-alt">
+    <h2 class="section-title">Mesa Principal</h2>
+    <div class="carousel-wrapper">
+      <button class="carousel-btn prev" onclick="scrollPool(this, -1)">&lsaquo;</button>
+      <div class="photo-pool">
+        <div class="pool-item" onclick="openLightbox(this)">
+          <img src="mesas/mesa principal/IMG_9060.jpg" alt="Mesa principal">
+        </div>
+        <div class="pool-item" onclick="openLightbox(this)">
+          <img src="mesas/mesa principal/IMG_9062.jpg" alt="Mesa principal candelabros">
+        </div>
+        <div class="pool-item" onclick="openLightbox(this)">
+          <img src="mesas/mesa principal/IMG_9067.jpg" alt="Mesa principal con lamparas de cristal">
+        </div>
+        <div class="pool-item" onclick="openLightbox(this)">
+          <img src="mesas/mesa principal/IMG_9068.PNG" alt="Mesa principal burbujas de vidrio">
+        </div>
+      </div>
+      <button class="carousel-btn next" onclick="scrollPool(this, 1)">&rsaquo;</button>
+    </div>
+    <div class="section-tags">
+      <span>Arreglos bajos</span>
+      <span>Velas en vidrio</span>
+      <span>Lamparas de gota</span>
+      <span>Burbujas de vidrio</span>
+    </div>
+  </section>
+
+  <!-- MESAS INVITADOS -->
+  <section id="mesas-invitados">
+    <h2 class="section-title">Mesas Invitados</h2>
+    <div class="carousel-wrapper">
+      <button class="carousel-btn prev" onclick="scrollPool(this, -1)">&lsaquo;</button>
+      <div class="photo-pool">
+        <div class="pool-item" onclick="openLightbox(this)">
+          <img src="mesas/mesas invitados/IMG_9063.jpg" alt="Mesa invitados flores">
+        </div>
+        <div class="pool-item" onclick="openLightbox(this)">
+          <img src="mesas/mesas invitados/WhatsApp Image 2026-03-04 at 12.54.32.jpeg" alt="Mesa con lampara">
+        </div>
+        <div class="pool-item" onclick="openLightbox(this)">
+          <img src="mesas/mesas invitados/bf239b220bf84a05cb39c4ae6df876c9.webp" alt="Detalle mesa con flores y menu">
+        </div>
+        <div class="pool-item" onclick="openLightbox(this)">
+          <img src="mesas/mesas invitados/c841fbd61453cf7c32274d75b268c68e.jpg" alt="Salon con mesas y lamparas">
+        </div>
+      </div>
+      <button class="carousel-btn next" onclick="scrollPool(this, 1)">&rsaquo;</button>
+    </div>
+    <div class="section-tags">
+      <span>Pequeñas lamparas</span>
+      <span>Arreglos florales bajos</span>
+      <span>Velas en vidrio</span>
+    </div>
+  </section>
+
+  <!-- MESA POSTRES -->
+  <section id="mesa-postres" class="bg-alt">
+    <h2 class="section-title">Mesa de Postres</h2>
+    <div class="carousel-wrapper">
+      <button class="carousel-btn prev" onclick="scrollPool(this, -1)">&lsaquo;</button>
+      <div class="photo-pool">
+        <div class="pool-item" onclick="openLightbox(this)">
+          <img src="mesas/mesa postres/IMG_9061.jpg" alt="Mesa de postres">
+        </div>
+        <div class="pool-item" onclick="openLightbox(this)">
+          <img src="mesas/mesa postres/IMG_9069.jpg" alt="Mesa de postres lamparas">
+        </div>
+      </div>
+      <button class="carousel-btn next" onclick="scrollPool(this, 1)">&rsaquo;</button>
+    </div>
+    <div class="section-tags">
+      <span>Velas en vidrio de distintos tamaños</span>
+      <span>Arreglos florales</span>
+      <span>Lamparas de terciopelo</span>
+    </div>
+  </section>
+
+  <!-- ELEMENTOS -->
+  <section id="elementos">
+    <h2 class="section-title">Elementos Clave</h2>
+    <div class="carousel-wrapper">
+      <button class="carousel-btn prev" onclick="scrollPool(this, -1)">&lsaquo;</button>
+      <div class="photo-pool">
+        <div class="pool-item crop-story" onclick="openLightbox(this)">
+          <img src="elementos/IMG_9029.PNG" alt="Ambiente con lamparas" style="filter: brightness(1.5);">
+        </div>
+        <div class="pool-item" onclick="openLightbox(this)">
+          <img src="elementos/WhatsApp Image 2026-02-17 at 17.14.55.jpeg" alt="Lamparas terciopelo">
+        </div>
+        <div class="pool-item" onclick="openLightbox(this)">
+          <img src="elementos/lamparas.jpg" alt="Lamparas verdes">
+        </div>
+        <div class="pool-item crop-story" onclick="openLightbox(this)">
+          <img src="elementos/IMG_8967.PNG" alt="Pilares con cortina blanca">
+        </div>
+      </div>
+      <button class="carousel-btn next" onclick="scrollPool(this, 1)">&rsaquo;</button>
+    </div>
+    <div class="section-tags">
+      <span>Lamparas de gota</span>
+      <span>Lamparas de terciopelo verde</span>
+      <span>Alfombras</span>
+      <span>Pilares en cortina blanca</span>
+    </div>
+  </section>
+
+  <!-- PISTA DE BAILE -->
+  <section id="pista" class="bg-alt">
+    <h2 class="section-title">Pista de Baile</h2>
+    <div class="carousel-wrapper">
+      <button class="carousel-btn prev" onclick="scrollPool(this, -1)">&lsaquo;</button>
+      <div class="photo-pool">
+        <div class="pool-item crop-story" onclick="openLightbox(this)">
+          <img src="pista/IMG_9030.PNG" alt="Pista de baile" style="filter: brightness(1.5);">
+        </div>
+      </div>
+      <button class="carousel-btn next" onclick="scrollPool(this, 1)">&rsaquo;</button>
+    </div>
+    <div class="section-tags">
+      <span>Bolas de disco</span>
+      <span>Lamparas de terciopelo</span>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLightbox()">
+    <button class="lb-close" onclick="closeLightbox()">&times;</button>
+    <button class="lb-btn lb-prev" onclick="navLightbox(-1)">&lsaquo;</button>
+    <img id="lightbox-img" src="" alt="Vista ampliada">
+    <button class="lb-btn lb-next" onclick="navLightbox(1)">&rsaquo;</button>
+  </div>
+
+  <footer>
+    <p>Matrimonio Gil Montenegro &middot; Viña Santa Rita &middot; 23 de mayo, 2026</p>
+  </footer>
+
+  <script>
+    let lbImages = [];
+    let lbIndex = 0;
+
+    let lbFilters = [];
+
+    function openLightbox(el) {
+      const pool = el.closest('.photo-pool');
+      const items = pool.querySelectorAll('.pool-item img');
+      lbImages = Array.from(items).map(img => img.src);
+      lbFilters = Array.from(items).map(img => img.style.filter || 'none');
+      lbIndex = Array.from(items).indexOf(el.querySelector('img'));
+      const lbImg = document.getElementById('lightbox-img');
+      lbImg.src = lbImages[lbIndex];
+      lbImg.style.filter = lbFilters[lbIndex];
+      document.getElementById('lightbox').classList.add('active');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+    function navLightbox(dir) {
+      lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
+      const lbImg = document.getElementById('lightbox-img');
+      lbImg.src = lbImages[lbIndex];
+      lbImg.style.filter = lbFilters[lbIndex];
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') navLightbox(1);
+      if (e.key === 'ArrowLeft') navLightbox(-1);
+    });
+
+    function scrollPool(btn, direction) {
+      const wrapper = btn.closest('.carousel-wrapper');
+      const pool = wrapper.querySelector('.photo-pool');
+      const item = pool.querySelector('.pool-item');
+      if (!item) return;
+      const scrollAmount = item.offsetWidth + 16;
+      pool.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
